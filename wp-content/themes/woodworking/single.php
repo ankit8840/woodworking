@@ -5,6 +5,12 @@ get_header();
 <div id="page">
     <div id="page-bgtop">
                 <?php the_post(); ?>
+                <?php get_sidebar();?>
+                <?php $id=get_the_ID()?>
+                <?php $value = get_post_meta($id, 'colormeta', 1 );?>
+                <h1>Color: <?php echo $value ?>
+            </h1>
+
                 <?php the_content(); ?>
         	</div>
 					<!-- end #content -->
@@ -59,7 +65,7 @@ if ( post_password_required() )
             <div class="nav-next"><?php next_comments_link( __( 'Newer Comments &amp;rarr;', 'twentythirteen' ) ); ?></div>
         </nav><!-- .comment-navigation -->
         <?php endif; // Check for comment navigation ?>
- 
+      
         <?php if ( ! comments_open() & get_comments_number() ) : ?>
         <p class="no-comments"><?php _e( 'Comments are closed.' , 'twentythirteen' ); ?></p>
         <?php endif; ?>
@@ -67,7 +73,6 @@ if ( post_password_required() )
     <?php endif; // have_comments() ?>
  
     <?php comment_form(); ?>
- 
 </div><!-- #comments -->
 		<!-- end #page -->
 <?php get_footer();?>
