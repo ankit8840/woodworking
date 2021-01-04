@@ -180,9 +180,10 @@ public function update( $new_instance, $old_instance ) {
   $instance = array();
   $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
   $instance['posttype'] = isset(( $new_instance['posttype'] ) ) ? $new_instance['posttype']  : false;
+  $this->my_test_plugin_admin_notice();
   return $instance;
   }
-    
+   
    
 } 
  // Class wpb_widget ends here    
@@ -224,6 +225,7 @@ function BlogMenu()
 	</div>
 <?php
 }
+
   
 
 

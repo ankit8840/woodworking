@@ -3,6 +3,18 @@
 if(isset($_POST['metavalue'])){
     $choice=$_POST['posttypechoice'];
     update_option( 'custom_meta_box', $choice);
+
+    function my_update_notice() {
+        ?>
+            <div class="notice notice-success">
+                <p><?php _e( 'The update completed successfully!', 'my-text-domain' ); ?></p>
+            </div>
+        <?php
+        }   
+    
+    if( ! empty( get_option( 'custom_meta_box' ) ) ) {
+        add_action( 'admin_notices', 'my_update_notice' );
+    }
 }
 class custom_meta_box{
 public static function Add_color_custom_box() {
