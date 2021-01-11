@@ -41,14 +41,19 @@ update_post_meta( $post_id, $meta_key, $meta_value );
 }
 function addMenu()
 {
-    add_menu_page("Blog-plugin",
-                    "Blog-plugin", 
-                    'manage_options',
-                    "example-options", 
-                    "BlogMenu");
-    add_submenu_page("example-options",
-     "custom_metabox", 
-     "custom_metabox",'manage_options', "example-option-1", "custom_metabox");
+    add_menu_page("Blog-plugin",//menu-title
+                    "Blog-plugin",//menu-name
+                    'manage_options',//capability
+                    "example-options",//slug
+                    "BlogMenu");//function
+    
+    add_submenu_page("example-options",//parent-slug
+                    "custom_metabox", //menu-title
+                    "custom_metabox",//menu-name
+                    'manage_options',//capabilty
+                    "example-option-1",//slug
+                    "custom_metabox"//function
+    );
 }
 add_action("admin_menu", "addMenu");
 

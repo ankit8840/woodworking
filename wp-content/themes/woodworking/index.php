@@ -1,5 +1,4 @@
 		<?php
-		// die("single");
 		get_header();
 		?>
 		<!-- end #menu -->

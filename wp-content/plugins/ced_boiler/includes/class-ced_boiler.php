@@ -163,6 +163,8 @@ class Ced_boiler {
 		$this->loader->add_filter( 'manage_edit-post_sortable_columns',$plugin_admin, 'register_sortable_columns' );
 		$this->loader->add_filter( 'request',$plugin_admin, 'hits_column_orderby' );
 		$this->loader->add_action( 'manage_posts_custom_column',$plugin_admin, 'custom_columns' );
+		$this->loader->add_action( 'wp_ajax_brand_action',$plugin_admin, 'add_brand');
+		$this->loader->add_action('init',$plugin_admin,'ced_cedpool_post_type');
 		//$this->loader->add_action( 'admin_notices',$plugin_admin,'my_test_plugin_admin_notice' );
 	}
 

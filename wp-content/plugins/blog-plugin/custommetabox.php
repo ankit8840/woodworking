@@ -90,6 +90,7 @@ function custom_metabox(){?>
         endforeach;?>
         <input type="submit"  value="submit" name="metavalue">
         </form>
+       
         <?php
 }
 ?>

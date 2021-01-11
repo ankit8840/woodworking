@@ -95,8 +95,12 @@ class Ced_boiler_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+		wp_enqueue_script( 'ajax_custom_script',  plugin_dir_url( __FILE__ ) . 'js/ced_boiler-admin.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script( 'ajax_custom_script', 'frontendajax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ),
+																		'name' =>'Ankit',
+																		'nonce'=>'ced_ajax'));
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ced_boiler-admin.js', array( 'jquery' ), $this->version, false );
+		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ced_boiler-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
 public function add_boliermenu(){
@@ -143,7 +147,9 @@ public function Add_brand_custom_box() {
 //Add HTML For MetaBox
 public function brand_custom_box_html( $post ) {
   ?>
-  <input type="text" name="brand_filed" placeholder="Enter Custom Color" value="" >
+  <input type="text" id="getname" name="brand_filed" placeholder="Enter Custom Color" >
+  <input type="hidden" id="getid" name="brand_id" value=<?php echo get_the_ID();?> >
+  <input type="button" value="Add" id="submitbrand" >
 <?php
 }
 
@@ -208,9 +214,33 @@ function custom_columns($column) {
         break;
     }
 }
-//Add Admin Notices
-
-
+function add_brand(){
+	$id=$_POST['id'];
+	$name=$_POST['name'];
+	if(update_post_meta($id,'brandmeta',$name)){
+		echo "updated";
+	}
 }
 
-
+function ced_cedpool_post_type()
+{
+    register_post_type('ced_pool', [
+        'labels' => [
+            'name' => __('ced_pool', 'ced_pool'),
+            'singular_name' => __('ced_pool', 'ced_pool'),
+        ],
+         'public' => true,
+         'has_archive' => true,
+        'supports' => [
+            'title',
+            'editor',
+            'excerpt',
+            'author',
+            'thumbnail',
+            'comments',
+            'revisions',
+            'custom-fields',
+        ],
+    ]);
+}
+}

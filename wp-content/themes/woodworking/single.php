@@ -4,20 +4,20 @@ get_header();
 <!-- end #menu -->
 <div id="page">
     <div id="page-bgtop">
+
                 <?php the_post(); ?>
                 <?php get_sidebar();?>
                 <?php $id=get_the_ID()?>
                 <?php $value = get_post_meta($id, 'colormeta', 1 );?>
-                <h1>Color: <?php echo $value ?>
-            </h1>
-
+                <?php the_title(); ?>
+                
                 <?php the_content(); ?>
-        	</div>
+        	    </div>
 					<!-- end #content -->
 			
 				<div style="clear: both;">&nbsp;</div>
 			</div>
-			</div>
+		</div>
 	</div>
 	<?php
 /**

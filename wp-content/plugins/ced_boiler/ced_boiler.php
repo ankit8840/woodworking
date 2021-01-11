@@ -43,7 +43,7 @@ define( 'CED_BOILER_VERSION', '1.0.0' );
  */
 function activate_ced_boiler() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-ced_boiler-activator.php';
-	is_plugin_active('/opt/lampp/htdocs/wordpress/wp-content/plugins/blog-plugin');
+	//is_plugin_active('/opt/lampp/htdocs/wordpress/wp-content/plugins/blog-plugin');
 	Ced_boiler_Activator::activate();
 }
 
