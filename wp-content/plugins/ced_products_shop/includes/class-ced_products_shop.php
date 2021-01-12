@@ -162,6 +162,7 @@ class Ced_products_shop {
 		$this->loader->add_action( 'add_meta_boxes',$plugin_admin, 'Add_Pricing_meta_box');
 		$this->loader->add_action( 'save_post',$plugin_admin,'ced_save_Pricing' );
 		$this->loader->add_action( 'init',$plugin_admin,'ced_clothing_taxonomy' );
+		$this->loader->add_action( 'wp_logout',$plugin_admin,'session_unset_logout' );
 	}
 
 	/**
@@ -178,11 +179,9 @@ class Ced_products_shop {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action( 'template_include', $plugin_public, 'template' );
-		//$this->loader->add_shortcode( "showitems", $plugin_public, "shop" );template
+		$this->loader->add_action('init',$plugin_public,'restore_session_data');
 
-	
-
-	}
+}
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.

@@ -30,6 +30,8 @@ class Ced_products_shop_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
+		$checkpage=get_page_by_title('Shop');
+		if($checkpage!="Shop"){
 		$my_post = array(
 			'post_title'    => 'Shop',
 			'post_content'  => '[showitems]',
@@ -51,6 +53,7 @@ class Ced_products_shop_Activator {
 	  
 		  // Insert the post into the database
 		  wp_insert_post( $my_page );
+		}
 	
 	}
 }

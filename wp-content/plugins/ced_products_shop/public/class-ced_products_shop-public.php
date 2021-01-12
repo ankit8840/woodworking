@@ -179,51 +179,51 @@ class Ced_products_shop_Public {
 	public function cart() 
 	{
 		$text='';
-		$y=0;
+		$y=0;	
 		unset($_SESSION['mess']);
-		if(!empty($_SESSION['items'])){
+		if(!empty($_SESSION['items']))
+		{
 		foreach($_SESSION['items'] as $key =>$tab)
-	{
+		{
 		if(isset($_POST[$tab['ProductId'].'update'])){
-			$id=$tab['ProductId'];
-			$title=$tab['ProductName'];
-			$value = get_post_meta($id, 'productmeta', 1 );	
-			$price=$value['regularprice'];	
-			$price1=$value['discountprice'];
-			$quantity=$_POST['qun'];
-			$upadtevalue=array('regularprice'=>$price*$quantity,'discountprice'=>$price1*$quantity);
+				$id=$tab['ProductId'];
+				$title=$tab['ProductName'];
+				$value = get_post_meta($id, 'productmeta', 1 );	
+				$price=$value['regularprice'];	
+				$price1=$value['discountprice'];
+				$quantity=$_POST['qun'];
+				$upadtevalue=array('regularprice'=>$price*$quantity,'discountprice'=>$price1*$quantity);
+				
+				$ProductCart=array(
+					'ProductId' => $id,
+					'ProductName' => $title,
+					'ProductPrice' => $upadtevalue,
+					'quantity' => $quantity
+				);
+				$_SESSION['items'][$id]=$ProductCart;
+				$_SESSION['mess']=array('notice'=>'Product Updated Sucessfully');
 			
-			$ProductCart=array(
-				'ProductId' => $id,
-				'ProductName' => $title,
-				'ProductPrice' => $upadtevalue,
-				'quantity' => $quantity
-			);
-			$_SESSION['items'][$id]=$ProductCart;
-			$_SESSION['mess']=array('notice'=>'Product Updated Sucessfully');
 
-			if(is_user_logged_in()){
+				if(is_user_logged_in()){
 				$id=get_current_user_id();
 				$userdata=get_user_meta($id,"orderlist");
 				
 				update_user_meta($id,"orderlist",$_SESSION['items']);
-				
+				}	
 			}
-		}
 
-		if(isset($_POST[$tab['ProductId'].'delete'])){
-			$id=$tab['ProductId'];
-			unset($_SESSION['items'][$id]);
-			$_SESSION['mess']=array('notice'=>'Product Deleted Sucessfully');
-			if(is_user_logged_in()){
+				if(isset($_POST[$tab['ProductId'].'delete'])){
+				$id=$tab['ProductId'];
+				unset($_SESSION['items'][$id]);
+				$_SESSION['mess']=array('notice'=>'Product Deleted Sucessfully');
+				if(is_user_logged_in()){
 				$id=get_current_user_id();
 				update_user_meta($id,"orderlist",$_SESSION['items']);
 				
+					}
 				}
 			}
-		}
-	}		
-
+		}		
 
 
 		/**
@@ -252,25 +252,31 @@ class Ced_products_shop_Public {
 			$text.="</table>";
 			
 			foreach($_SESSION['items'] as $key =>$tab)
-			{	
-		 		$y=$y+$tab['ProductPrice']['regularprice'];
-		 	}
+			{
+			$y=$y+$tab['ProductPrice']['regularprice'];
+			}
 			 $text.='<div style="background-color:red;">
 						<h1>Total==>Amount= $'.$y.'<span id="pprv"></span></span></h1>
 					</div>';		
-			}
+			
 		}
+	}
 		/**
 		 * This else condition runs when user login this is contain all cart data 
 	 	**/
 		else{
 			$id=get_current_user_id();
 			$userdata=get_user_meta($id,"orderlist",1);
-			if(!empty($userdata)){
-				if(isset($_SESSION['mess'])){
-					$text.='<h3>'.$_SESSION['mess']['notice'].'</h3>';
+				if(!empty($_SESSION['items'])){
+					update_user_meta($id,"orderlist",$_SESSION['items']);
+					$userdata=get_user_meta($id,"orderlist",1);
+					print_r($userdata);
 				}
-			$text.='<table>';
+				if(!empty($userdata)){
+					if(isset($_SESSION['mess'])){
+						$text.='<h3>'.$_SESSION['mess']['notice'].'</h3>';
+				}
+				$text.='<table>';
 				$text.='<tr>'."<th>"."ProductId"."</th>"."<th>"."ProductName"."</th>"."<th>"."Quantity"."</th>"."<th>"."ProductPrice"."</th>"."<th>"."Action"."</th>"."<th>"."Action"."</th>".'<tr>';
 				foreach($userdata as $key=>$tab)
 				{
@@ -283,7 +289,6 @@ class Ced_products_shop_Public {
 							"<td>" . '<input type="submit" name="'.$tab['ProductId'].'delete"  value="Delete" />'. "</td>". "</tr>".'</form>';
 				}
 				$text.="</table>";
-
 				foreach($userdata as $key =>$tab)
 				{	
 		 		$y=$y+$tab['ProductPrice']['regularprice'];
@@ -292,13 +297,17 @@ class Ced_products_shop_Public {
 							<h1>Total==>Amount= $'.$y.'<span id="pprv"></span></span></h1>
 						</div>';		
 					
-				}
-
+				
+			}
 		}
-
-
-	
-	return $text;
-
+		return $text;
 	}
-}?>
+
+	function restore_session_data(){
+		if(is_user_logged_in()&&(empty($_SESSION['items']))){
+			$id=get_current_user_id();
+			$previous_data=get_user_meta($id,"orderlist",1);
+			$_SESSION['items']=$previous_data;
+			}
+	}
+}

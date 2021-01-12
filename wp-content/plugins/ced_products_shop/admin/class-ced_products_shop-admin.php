@@ -53,10 +53,6 @@ class Ced_products_shop_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-		//  add_shortcode( "showitems", array( $this, "shop" ) );
-		//  add_shortcode( "cartitems", array( $this, "cart" ) );
-
-		//add_action( "init", array($this, "shop") );
 	}
 
 	/**
@@ -110,6 +106,7 @@ class Ced_products_shop_Admin {
 	 * @since    1.0.0
 	 * @return void
 	 */
+	
 	function ced_products_post_type()
 	{
 		register_post_type('products', [
@@ -266,7 +263,12 @@ class Ced_products_shop_Admin {
 		 ];
 		 register_taxonomy('clothing', ['products'], $args);
 	 }
-
+	 function session_unset_logout(){
+		 session_start();
+		 if(!empty($_SESSION['items'])){
+			 unset($_SESSION['items']);
+		 }
+	 }
 	
 }
 //session_destroy();
