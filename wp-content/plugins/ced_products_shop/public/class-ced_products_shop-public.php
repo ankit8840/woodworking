@@ -270,7 +270,6 @@ class Ced_products_shop_Public {
 				if(!empty($_SESSION['items'])){
 					update_user_meta($id,"orderlist",$_SESSION['items']);
 					$userdata=get_user_meta($id,"orderlist",1);
-					print_r($userdata);
 				}
 				if(!empty($userdata)){
 					if(isset($_SESSION['mess'])){
@@ -302,7 +301,13 @@ class Ced_products_shop_Public {
 		}
 		return $text;
 	}
-
+	
+	/**
+	 * This function is use for store cart data into session this will check if user login 
+	 * and session empty then get the all data from db and store into session.
+	 * @since    1.0.0
+	 * @return void
+	 */
 	function restore_session_data(){
 		if(is_user_logged_in()&&(empty($_SESSION['items']))){
 			$id=get_current_user_id();
